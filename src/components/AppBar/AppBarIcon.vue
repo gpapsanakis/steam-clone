@@ -1,0 +1,29 @@
+<script setup lang="ts">
+import logoSteam from '@/assets/logo_steam.svg'
+import { useRouter } from 'vue-router'
+import type { DisplayBreakpoint } from 'vuetify'
+import { useDisplay } from 'vuetify'
+import { TABS } from '@/utils/constants'
+
+const router = useRouter()
+const goHome = () => {
+  router.push({ name: 'Home', query: { tab: TABS[0].route } })
+}
+
+const { mobile }: { mobile: DisplayBreakpoint } = useDisplay()
+</script>
+
+<template>
+  <v-icon @click="goHome" class="ma-4" v-if="mobile" size="x-large"> mdi-steam</v-icon>
+  <v-img
+    v-else
+    alt="Steam"
+    max-width="200"
+    min-width="50"
+    class="mx-5 cursor-pointer"
+    :src="logoSteam"
+    @click="goHome"
+  />
+</template>
+
+<style scoped></style>
