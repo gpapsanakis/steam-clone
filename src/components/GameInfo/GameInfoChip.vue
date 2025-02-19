@@ -7,7 +7,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="d-flex flex-wrap">
+  <div class="d-flex flex-wrap w-100 mx-auto px-10 py-5">
     <v-chip
       v-for="category in categories"
       :key="category.id"

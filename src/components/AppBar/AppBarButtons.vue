@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import hackTheBox from '@/assets/hackthebox.svg'
 import { ref, Ref } from 'vue'
-import { useThemeStore } from '@/stores/theme'
 import { BUTTON, SNACKBAR } from '@/utils/constants'
-import { useDisplay } from 'vuetify'
+import { ThemeInstance, useDisplay, useTheme } from 'vuetify'
 
-const themeStore = useThemeStore()
+const theme: ThemeInstance = useTheme()
 
 const toggleDarkMode = (): void => {
-  themeStore.toggleTheme()
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
 
 const snackbarInstall: Ref<boolean> = ref(false)

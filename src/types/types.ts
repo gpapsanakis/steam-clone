@@ -67,6 +67,8 @@ interface Text {
   newPrice: string
 }
 
-interface ThemeState {
-  isDark: boolean
+interface PriceOverview {
+  discount_percent?: number
+  initial_formatted: string
+  final_formatted: string
 }

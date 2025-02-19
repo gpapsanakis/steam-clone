@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import logoSteam from '@/assets/logo_steam.svg'
 import { useRouter } from 'vue-router'
-import type { DisplayBreakpoint } from 'vuetify'
-import { useDisplay } from 'vuetify'
+import { DisplayBreakpoint, ThemeInstance, useDisplay, useTheme } from 'vuetify'
 import { TABS } from '@/utils/constants'
+import { computed } from 'vue'
 
 const router = useRouter()
 const goHome = () => {
@@ -11,6 +11,8 @@ const goHome = () => {
 }
 
 const { mobile }: { mobile: DisplayBreakpoint } = useDisplay()
+const theme: ThemeInstance = useTheme()
+const activeTheme = computed(() => theme.global.name.value)
 </script>
 
 <template>
@@ -21,9 +23,14 @@ const { mobile }: { mobile: DisplayBreakpoint } = useDisplay()
     max-width="200"
     min-width="50"
     class="mx-5 cursor-pointer"
+    :class="{ invert: activeTheme === 'light' }"
     :src="logoSteam"
     @click="goHome"
   />
 </template>
 
-<style scoped></style>
+<style scoped>
+.invert {
+  filter: invert(1);
+}
+</style>

@@ -28,6 +28,7 @@ watch(activeCarouselItem, () => {
     hide-delimiter-background
     ref="carouselRef"
     v-model="activeCarouselItem"
+    class="w-75 mx-auto"
   >
     <v-carousel-item
       v-for="screenshot in screenshots"

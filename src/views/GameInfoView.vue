@@ -2,13 +2,14 @@
 import { useRoute } from 'vue-router'
 import { useQuery } from '@tanstack/vue-query'
 import { useFetchGameInfo } from '@/composables/useFetchGameInfo'
-import { computed, defineComponent } from 'vue'
-import { useDisplay } from 'vuetify'
+import { computed, ComputedRef, defineComponent } from 'vue'
+import { ThemeInstance, useDisplay, useTheme } from 'vuetify'
 import GameInfoCarousel from '@/components/GameInfo/GameInfoCarousel.vue'
 import GameInfoAbout from '@/components/GameInfo/GameInfoAbout.vue'
 import GameInfoChip from '@/components/GameInfo/GameInfoChip.vue'
 import GameInfoPublisher from '@/components/GameInfo/GameInfoPublisher.vue'
 import GameInfoPrice from '@/components/GameInfo/GameInfoPrice.vue'
+import GameInfoDetails from '@/components/GameInfo/GameInfoDetails.vue'
 import { TEXT } from '@/utils/constants'
 
 defineComponent({
@@ -18,6 +19,7 @@ defineComponent({
     GameInfoChip,
     GameInfoPublisher,
     GameInfoPrice,
+    GameInfoDetails,
   },
 })
 
@@ -31,21 +33,10 @@ const { data, error, refetch } = useQuery<GameInfo>({
 })
 
 const { smAndDown } = useDisplay()
+const theme: ThemeInstance = useTheme()
 
 const aboutTheGame: ComputedRef<string | undefined> = computed(() => {
   return data.value?.about_the_game
-})
-
-const screenshots: ComputedRef<GameInfo['screenshots'] | undefined> = computed(() => {
-  return data.value?.screenshots
-})
-
-const movies: ComputedRef<GameInfo['movies'] | undefined> = computed(() => {
-  return data.value?.movies
-})
-
-const priceOverview: ComputedRef<GameInfo['price_overview'] | undefined> = computed(() => {
-  return data.value?.price_overview
 })
 </script>
 
@@ -60,37 +51,12 @@ const priceOverview: ComputedRef<GameInfo['price_overview'] | undefined> = compu
   ></v-empty-state>
   <v-main v-if="data">
     <v-parallax :src="data.background">
-      <v-row no-gutters :class="{ 'flex-column': smAndDown }">
-        <v-col sm="12" md="6">
+      <v-row no-gutters :class="{ 'flex-column': smAndDown }" class="w-75 mx-auto">
+        <v-col cols="12" md="6" class="pt-5">
           <GameInfoAbout :aboutTheGame="aboutTheGame" />
         </v-col>
-        <v-col sm="12" md="6">
-          <v-card
-            class="mx-auto py-10 px-16 d-flex flex-column justify-center overflow-auto"
-            height="100%"
-            max-height="1200"
-          >
-            <GameInfoCarousel :screenshots="screenshots" :movies="movies" />
-            <v-card class="py-10">
-              <v-img :src="data.header_image" max-height="250" height="250"></v-img>
-              <v-card-title class="mx-auto">{{ data.name }}</v-card-title>
-              <v-card-text class="w-auto">{{ data.short_description }}</v-card-text>
-            </v-card>
-            <GameInfoChip :categories="data.categories" />
-            <v-row no-gutters>
-              <v-col cols="6">
-                <GameInfoPublisher
-                  :publishers="data.publishers?.currency"
-                  :developers="data.developers[0]"
-                  :releaseDate="data.release_date.date"
-                  :website="data.website"
-                />
-              </v-col>
-              <v-col cols="6">
-                <GameInfoPrice :priceOverview="priceOverview" />
-              </v-col>
-            </v-row>
-          </v-card>
+        <v-col cols="12" md="6" class="pt-5">
+          <GameInfoDetails :data="data" />
         </v-col>
       </v-row>
     </v-parallax>

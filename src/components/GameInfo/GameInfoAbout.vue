@@ -1,18 +1,28 @@
 <script setup lang="ts">
+import { ThemeInstance, useTheme } from 'vuetify'
+
 const { aboutTheGame } = defineProps({
   aboutTheGame: String,
 })
+
+const theme: ThemeInstance = useTheme()
 </script>
 
 <template>
-  <v-card
-    class="mx-auto py-10 px-16 d-flex flex-column justify-start overflow-auto"
-    elevation="24"
-    height="100%"
-    max-height="1200"
-  >
-    <v-card-text class="w-100" v-html="aboutTheGame"></v-card-text>
-  </v-card>
+  <v-container
+    :class="{ 'container-white': !theme.global.current.value.dark }"
+    v-html="aboutTheGame"
+  ></v-container>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container-white {
+  background-color: #ffffff;
+}
+
+.v-container :deep(img) {
+  max-width: 80%;
+  margin: 0 24px;
+  padding: 24px 0;
+}
+</style>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { computed, ComputedRef, defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import AppBar from './components/AppBar/AppBar.vue'
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
-import { useThemeStore } from './stores/theme'
 import { TEXT } from '@/utils/constants'
+import { ThemeInstance, useTheme } from 'vuetify'
 
 defineComponent({
   components: {
@@ -13,15 +13,15 @@ defineComponent({
   },
 })
 
-const themeStore = useThemeStore()
-const isDark: ComputedRef<boolean> = computed(() => themeStore.isDark)
+const theme: ThemeInstance = useTheme()
+const activeTheme = computed(() => theme.global.name.value)
 </script>
 
 <template>
-  <v-app id="inspire" :theme="isDark ? 'dark' : 'light'">
+  <v-app id="inspire" :theme="activeTheme">
     <AppBar />
     <RouterView />
-    <v-footer :theme="isDark ? 'dark' : 'light'" height="44" app>
+    <v-footer :theme="activeTheme" height="44" app>
       {{ TEXT.footer }}
     </v-footer>
   </v-app>

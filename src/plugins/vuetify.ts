@@ -11,6 +11,9 @@ const vuetifyOptions: VuetifyOptions = {
       mdi,
     },
   },
+  theme: {
+    defaultTheme: 'dark',
+  },
 }
 
 export default createVuetify(vuetifyOptions)

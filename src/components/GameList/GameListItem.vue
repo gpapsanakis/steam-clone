@@ -30,16 +30,18 @@ const showGame = () => {
   <v-col class="cursor-pointer" cols="12" @click="showGame">
     <v-hover v-slot="{ isHovering, props }" open-delay="200">
       <v-card class="game-card" :elevation="isHovering ? 16 : 2" v-bind="props">
-        <div class="d-flex flex-no-wrap">
+        <div class="d-flex flex-no-wrap" :class="{ 'flex-column': smAndDown }">
           <v-img
             rounded
-            max-width="200"
+            :max-width="smAndDown ? '100%' : '200'"
             class="ma-3"
             :lazy-src="gameInfo.header_image"
             :src="gameInfo.header_image"
           ></v-img>
-          <div class="w-75">
-            <v-card-title class="text-h5 pb-0">{{ gameInfo.name }}</v-card-title>
+          <div :class="{ 'mx-auto': smAndDown, 'w-auto': smAndDown, 'w-75': mdAndUp }">
+            <v-card-title class="text-h5 pb-0 text-wrap" :class="{ 'text-center': smAndDown }"
+              >{{ gameInfo.name }}
+            </v-card-title>
             <v-row class="ma-0 w-75" v-show="isHovering" v-if="mdAndUp">
               <v-card-text class="text-medium-emphasis text-caption px-2 py-0">
                 {{ gameInfo.short_description }}
@@ -57,7 +59,11 @@ const showGame = () => {
           </div>
         </div>
         <GameListItemPrice :priceOverview="gameInfo.price_overview" />
-        <div v-if="gameInfo.release_date.coming_soon" class="text-h7 bg-blue-grey-darken-3 soon">
+        <div
+          v-if="gameInfo.release_date.coming_soon"
+          class="text-h7 bg-blue-grey-darken-3 soon"
+          :class="{ 'position-absolute': mdAndUp, 'mx-auto': smAndDown }"
+        >
           {{ TEXT.comingSoon }}
         </div>
       </v-card>
@@ -68,9 +74,9 @@ const showGame = () => {
 <style scoped>
 .soon {
   padding: 0.5rem;
-  position: absolute;
   bottom: 5px;
   right: 10px;
+  width: fit-content;
 }
 
 .game-card.v-theme--dark {
